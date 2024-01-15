@@ -16,3 +16,12 @@ body {
   font-family: 'SF Sports Night NS';
   src: url('/fonts/SF Sports Night NS.ttf');
 }
+
+@layer base {
+  :root {
+    --color-primary: 255 136 77;
+    --color-secondary: 111 114 185;
+    --color-background: 123 123 123;
+    --color-foreground: 123 123 123;
+  }
+}

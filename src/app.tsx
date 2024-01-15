@@ -4,6 +4,7 @@ import { Logo } from './components/Logo';
 import QRModal from './components/QRModal';
 import Section from './components/Section';
 import Button, { Variant } from './components/core/Button';
+import Colors from './colors'
 import {
   getQRCodeData,
   resetSections,
@@ -18,6 +19,7 @@ export function App() {
   const formData = useQRScoutState(state => state.formData);
 
   const [showQR, setShowQR] = useState(false);
+  const [team, setTeam] = useState("1153");
 
   const missingRequiredFields = useMemo(() => {
     return formData.sections
@@ -62,6 +64,22 @@ export function App() {
     download('QRScout_config.json', JSON.stringify(configDownload));
   }
 
+  function updateColors() {
+    let curtheme = theme;
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      // dark mode
+      curtheme = 'dark'
+    }
+    if(curtheme === undefined) {
+      curtheme = 'light';
+    }
+    document.documentElement.style.setProperty(`--color-primary`, Colors[team][curtheme]['primary']);
+    document.documentElement.style.setProperty(`--color-secondary`, Colors[team][curtheme]['secondary']);
+    document.documentElement.style.setProperty(`--color-background`, Colors[team][curtheme]['background']);
+    document.documentElement.style.setProperty(`--color-foreground`, Colors[team][curtheme]['foreground']);
+  }
+
+  updateColors();
   return (
     <div className="min-h-screen py-2 dark:bg-gray-700">
       <head>
@@ -71,7 +89,7 @@ export function App() {
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-4 text-center">
         <h1 className="font-sans text-6xl font-bold">
-          <div className={`font-rhr text-red-rhr`}>{formData.page_title}</div>
+          <div className={`font-rhr text-primary`}>{formData.page_title}</div>
         </h1>
         <QRModal
           show={showQR}
@@ -88,7 +106,7 @@ export function App() {
 
             <div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md dark:bg-gray-600">
               <button
-                className="focus:shadow-outline mx-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-red-rhr"
+                className="focus:shadow-outline mx-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-primary"
                 type="button"
                 onClick={() => setShowQR(true)}
                 disabled={missingRequiredFields.length > 0}
@@ -96,7 +114,7 @@ export function App() {
                 Commit
               </button>
               <button
-                className="focus:shadow-outline mx-2 my-6 rounded border border-red-rhr bg-white py-2 font-bold uppercase text-red-rhr hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
+                className="focus:shadow-outline mx-2 my-6 rounded border border-primary bg-white py-2 font-bold uppercase text-primary hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
                 type="button"
                 onClick={() => resetSections()}
               >
@@ -152,6 +170,20 @@ export function App() {
                   </option>
                   <option key={'light'} value={'light'}>
                     Light
+                  </option>
+                </select>
+                <select
+                  className="rounded bg-white px-4 py-2 dark:bg-gray-700 dark:text-white"
+                  name="Color"
+                  id="color"
+                  onInput={v => {setTeam(v.currentTarget.value); updateColors()}}
+                  value={'1153'}
+                >
+                  <option key={'1153'} value={'1153'}>
+                  Timberwolves
+                  </option>
+                  <option key={'1119'} value={'1119'}>
+                  Pup Cups
                   </option>
                 </select>
               </div>

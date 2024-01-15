@@ -94,7 +94,7 @@ export default function ConfigurableInput(props: ConfigurableInputProps) {
             {input.title}
           </label>
           <p
-            className="text-red-rhr"
+            className="text-primary"
             id={input.title}
           >{`No Renderer for type: ${input.type}`}</p>
         </div>

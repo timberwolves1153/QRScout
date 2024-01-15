@@ -18,7 +18,7 @@ export default function QRModal(props: QRModalProps) {
           />
           <div className="fixed top-20 rounded-md border bg-white p-5 shadow-lg">
             <div className="flex flex-col items-center">
-              <h1 className="text-4xl">{props.title.toUpperCase()}</h1>
+              <h1 className="text-4xl text-primary">{props.title.toUpperCase()}</h1>
               <QRCode className="m-2 mt-4" size={256} value={props.data} />
               <div className="mt-4 flex w-full flex-row items-center justify-between">
                 <div
@@ -43,7 +43,7 @@ export default function QRModal(props: QRModalProps) {
                   </svg>
                 </div>
                 <button
-                  className="focus:shadow-outline rounded bg-red-rhr py-2 px-4 font-bold text-white hover:bg-red-700 focus:outline-none"
+                  className="focus:shadow-outline rounded bg-primary py-2 px-4 font-bold text-white hover:bg-red-700 focus:outline-none"
                   type="button"
                   onClick={props.onDismiss}
                 >
