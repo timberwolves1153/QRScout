@@ -66,13 +66,13 @@ export function App() {
 
   function updateColors() {
     let curtheme = theme;
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (curtheme === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       // dark mode
       curtheme = 'dark'
     }
-    if(curtheme === undefined) {
+    if(curtheme === undefined || curtheme === 'system') {
       curtheme = 'light';
-    }
+    }   
     document.documentElement.style.setProperty(`--color-primary`, Colors[team][curtheme]['primary']);
     document.documentElement.style.setProperty(`--color-secondary`, Colors[team][curtheme]['secondary']);
     document.documentElement.style.setProperty(`--color-background`, Colors[team][curtheme]['background']);
@@ -177,7 +177,7 @@ export function App() {
                   name="Color"
                   id="color"
                   onInput={v => {setTeam(v.currentTarget.value); updateColors()}}
-                  value={'1153'}
+                  value={team}
                 >
                   <option key={'1153'} value={'1153'}>
                   Timberwolves
