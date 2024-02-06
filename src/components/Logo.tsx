@@ -1,5 +1,8 @@
+import logo from "../assets/wolf_2024 logo.svg";
+
 export function Logo() {
   return (
-    <img src="src/assets/wolf_2024 logo.svg" style="display: block"></img>
+    <img src={logo} style="display: block" />
+    
   );
 }
