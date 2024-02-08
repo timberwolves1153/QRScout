@@ -11,6 +11,8 @@ import {
   resetToDefaultConfig,
   uploadConfig,
   useQRScoutState,
+  saveData,
+  getSaveData,
 } from './store/store';
 
 export function App() {
@@ -20,6 +22,8 @@ export function App() {
 
   const [showQR, setShowQR] = useState(false);
   const [team, setTeam] = useState("1153");
+  const [whichCode, setCode] = useState(-1);
+  const [isSaveData, setIsSaveData] = useState(false)
 
   const missingRequiredFields = useMemo(() => {
     return formData.sections
@@ -70,7 +74,7 @@ export function App() {
       // dark mode
       curtheme = 'dark'
     }
-    if(curtheme === undefined || curtheme === 'system') {
+    if (curtheme === undefined || curtheme === 'system') {
       curtheme = 'light';
     }   
     document.documentElement.style.setProperty(`--color-primary`, Colors[team][curtheme]['primary']);
@@ -80,6 +84,34 @@ export function App() {
   }
 
   updateColors();
+
+  function getCurrentQRCodeData(): string {
+    if (whichCode === -1) {
+      return getQRCodeData();
+    }
+    let data = getSaveData();
+    console.log(data[whichCode])
+    console.log(whichCode)
+    return data[whichCode];
+  }
+  
+  function dismissQR() {
+    let data = getSaveData();
+    if (whichCode >= data.length - 1 || whichCode === -1) {
+      setCode(-1)
+      setShowQR(false)
+    }
+    else {
+      setShowQR(false)
+      setCode(whichCode + 1);
+      setShowQR(true)
+    }
+  }
+
+  if (getSaveData().length > 0) {
+    setIsSaveData(true);
+  }
+
   return (
     <div className="min-h-screen py-2 dark:bg-gray-700">
       <head>
@@ -94,8 +126,8 @@ export function App() {
         <QRModal
           show={showQR}
           title={`${getFieldValue('robot')} - ${getFieldValue('matchNumber')}`}
-          data={getQRCodeData()}
-          onDismiss={() => setShowQR(false)}
+          data={getCurrentQRCodeData()}
+          onDismiss={dismissQR}
         />
 
         <form className="w-full px-4">
@@ -106,12 +138,28 @@ export function App() {
 
             <div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md dark:bg-gray-600">
               <button
-                className="focus:shadow-outline mx-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-primary"
+                className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-primary"
                 type="button"
-                onClick={() => setShowQR(true)}
+                onClick={() => {setCode(-1); setShowQR(true)}}
                 disabled={missingRequiredFields.length > 0}
               >
-                Commit
+                Show Current QRCode
+              </button>
+              <button
+                className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-3 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-primary"
+                type="button"
+                onClick={() => {setIsSaveData(true) ; saveData(getQRCodeData())}}
+                disabled={missingRequiredFields.length > 0}
+              >
+                Save QR to Local Storage
+              </button>
+              <button
+                className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-3 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-primary"
+                type="button"
+                onClick={() => {setCode(0); setShowQR(true)}}
+                disabled={isSaveData == false}
+              >
+                Load QR from Local Storage
               </button>
               <button
                 className="focus:shadow-outline mx-2 my-6 rounded border border-primary bg-white py-2 font-bold uppercase text-primary hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"

@@ -99,3 +99,13 @@ export function getQRCodeData(): string {
     .map(v => `${v.value}`.replace(/\n/g, ' '))
     .join('\t');
 }
+
+export function saveData(data) {
+  var saveData = JSON.parse(localStorage.getItem("savedData") || '[]');
+  saveData.push(data);
+  localStorage.setItem("savedData", JSON.stringify(saveData));
+}
+
+export function getSaveData() {
+  return JSON.parse(localStorage.getItem("savedData") || '[]');
+}
