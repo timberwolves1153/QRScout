@@ -100,7 +100,7 @@ export function getQRCodeData(): string {
     .join('\t');
 }
 
-export function saveData(data) {
+export function saveData(data: string) {
   var saveData = JSON.parse(localStorage.getItem("savedData") || '[]');
   saveData.push(data);
   localStorage.setItem("savedData", JSON.stringify(saveData));
