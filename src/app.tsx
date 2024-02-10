@@ -165,16 +165,16 @@ export function App() {
               <button
                 className="focus:shadow-outline mx-2 my-6 rounded border border-primary bg-white py-2 font-bold uppercase text-primary hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
                 type="button"
-                onClick={() => resetSections()}
+                onClick={() => {setIsSaveData(false);clearSaveData()}}
               >
-                Reset Form
+                Clear Saved Data
               </button>
               <button
                 className="focus:shadow-outline mx-2 my-6 rounded border border-primary bg-white py-2 font-bold uppercase text-primary hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
                 type="button"
-                onClick={() => {setIsSaveData(false);clearSaveData()}}
+                onClick={() => resetSections()}
               >
-                Clear Saved Data
+                Reset Form
               </button>
             </div>
             <div className="mb-4 flex flex-col justify-center rounded bg-white shadow-md dark:bg-gray-600 gap-2 p-2">
