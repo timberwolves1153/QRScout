@@ -109,3 +109,7 @@ export function saveData(data: string) {
 export function getSaveData() {
   return JSON.parse(localStorage.getItem("savedData") || '[]');
 }
+
+export function clearSaveData(){
+  localStorage.removeItem("savedData")
+}
