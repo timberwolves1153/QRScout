@@ -15,6 +15,7 @@ import {
   getSaveData,
   clearSaveData,
 } from './store/store';
+import teamContext from './components/Team';
 
 export function App() {
   const { theme, setTheme } = useTheme();
@@ -114,6 +115,7 @@ export function App() {
   }
 
   return (
+    
     <div className="min-h-screen py-2 dark:bg-gray-700">
       <head>
         <title>QRScout|{formData.title}</title>
@@ -256,7 +258,9 @@ export function App() {
       </main>
       <footer>
         <div className="mt-8 flex flex-col items-center justify-center gap-4">
-          <Logo />
+          <teamContext.Provider value={team}>
+            <Logo />
+          </teamContext.Provider>
         </div>
       </footer>
     </div>
