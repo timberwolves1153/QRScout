@@ -158,9 +158,10 @@ export function App() {
                 Load QR from Local Storage
               </button>
               <button
-                className="focus:shadow-outline mx-2 my-6 rounded border border-primary bg-white py-2 font-bold uppercase text-primary hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
+                className="focus:shadow-outline mx-2 my-6 rounded border border-primary bg-red-400 py-2 font-bold uppercase text-primary hover:bg-red-200 focus:outline-none dark:bg-red-500 dark:text-white dark:hover:bg-gray-700 disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:border-gray-300"
                 type="button"
                 onClick={() => {if (confirm("Are you sure you want to clear the data?")){clearSaveData()}}}
+                disabled={!isSaveData}
               >
                 Clear Saved Data
               </button>
