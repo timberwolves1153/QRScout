@@ -103,10 +103,12 @@ export function getQRCodeData(): string {
 
 export interface SaveState {
   saveData: Array<string>;
+  isSaveData: boolean;
 }
 
 const initialSaveState: SaveState = {
-  saveData: []
+  saveData: [],
+  isSaveData: false
 };
 
 export const useSaveState = createStore<SaveState>(
@@ -125,7 +127,7 @@ export function saveData(newData: string) {
     }
   }
   data.push(newData);
-  useSaveState.setState({ saveData: data });
+  useSaveState.setState({ saveData: data, isSaveData: true });
 }
 
 export function getSaveData() {
@@ -133,5 +135,5 @@ export function getSaveData() {
 }
 
 export function clearSaveData(){
-  useSaveState.setState({ saveData: [] });
+  useSaveState.setState({ saveData: [], isSaveData: false });
 }

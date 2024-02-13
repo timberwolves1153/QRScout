@@ -12,8 +12,8 @@ import {
   uploadConfig,
   useQRScoutState,
   saveData,
-  getSaveData,
   clearSaveData,
+  useSaveState
 } from './store/store';
 import teamContext from './components/Team';
 
@@ -25,7 +25,8 @@ export function App() {
   const [showQR, setShowQR] = useState(false);
   const [team, setTeam] = useState("1153");
   const [whichCode, setCode] = useState(-1);
-  const [isSaveData, setIsSaveData] = useState(false)
+  const isSaveData = useSaveState(state => state.isSaveData);
+  const savedData = useSaveState(state => state.saveData);
 
   const missingRequiredFields = useMemo(() => {
     return formData.sections
@@ -91,12 +92,11 @@ export function App() {
     if (whichCode === -1) {
       return getQRCodeData();
     }
-    return getSaveData()[whichCode];
+    return savedData[whichCode];
   }
   
   function dismissQR() {
-    let data = getSaveData();
-    if (whichCode >= data.length - 1 || whichCode === -1) {
+    if (whichCode >= savedData.length - 1 || whichCode === -1) {
       setCode(-1)
       setShowQR(false)
     }
@@ -105,10 +105,6 @@ export function App() {
       setCode(whichCode + 1);
       setShowQR(true)
     }
-  }
-
-  if (getSaveData().length > 0) {
-    setIsSaveData(true);
   }
 
   return (
@@ -148,7 +144,7 @@ export function App() {
               <button
                 className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-3 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-primary"
                 type="button"
-                onClick={() => {setIsSaveData(true) ; saveData(getQRCodeData())}}
+                onClick={() => {saveData(getQRCodeData())}}
                 disabled={missingRequiredFields.length > 0}
               >
                 Save QR to Local Storage
@@ -157,14 +153,14 @@ export function App() {
                 className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-3 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-primary"
                 type="button"
                 onClick={() => {setCode(0); setShowQR(true)}}
-                disabled={isSaveData == false}
+                disabled={!isSaveData}
               >
                 Load QR from Local Storage
               </button>
               <button
                 className="focus:shadow-outline mx-2 my-6 rounded border border-primary bg-white py-2 font-bold uppercase text-primary hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
                 type="button"
-                onClick={() => {if (confirm("Are you sure you want to clear the data?")){setIsSaveData(false);clearSaveData()}}}
+                onClick={() => {if (confirm("Are you sure you want to clear the data?")){clearSaveData()}}}
               >
                 Clear Saved Data
               </button>
