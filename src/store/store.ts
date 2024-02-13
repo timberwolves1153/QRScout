@@ -100,16 +100,33 @@ export function getQRCodeData(): string {
     .join('\t');
 }
 
-export function saveData(data: string) {
-  var saveData = JSON.parse(localStorage.getItem("savedData") || '[]');
-  saveData.push(data);
-  localStorage.setItem("savedData", JSON.stringify(saveData));
+
+export interface SaveState {
+  saveData: Array<string>;
+}
+
+const initialSaveState: SaveState = {
+  saveData: []
+};
+
+export const useSaveState = createStore<SaveState>(
+  initialSaveState,
+  'saveData',
+  {
+    version: 1,
+  },
+);
+
+export function saveData(newData: string) {
+  var data = useSaveState.getState().saveData;
+  data.push(newData);
+  useSaveState.setState({ saveData: data });
 }
 
 export function getSaveData() {
-  return JSON.parse(localStorage.getItem("savedData") || '[]');
+  return useSaveState.getState().saveData;
 }
 
 export function clearSaveData(){
-  localStorage.removeItem("savedData")
+  useSaveState.setState({ saveData: [] });
 }

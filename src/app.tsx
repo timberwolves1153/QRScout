@@ -91,10 +91,7 @@ export function App() {
     if (whichCode === -1) {
       return getQRCodeData();
     }
-    let data = getSaveData();
-    console.log(data[whichCode])
-    console.log(whichCode)
-    return data[whichCode];
+    return getSaveData()[whichCode];
   }
   
   function dismissQR() {
