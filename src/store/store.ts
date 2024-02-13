@@ -119,6 +119,11 @@ export const useSaveState = createStore<SaveState>(
 
 export function saveData(newData: string) {
   var data = useSaveState.getState().saveData;
+  if (data[data.length - 1] == newData){
+    if (!confirm("Last two saved items are the same. Save anyway?")){
+      return
+    }
+  }
   data.push(newData);
   useSaveState.setState({ saveData: data });
 }
