@@ -10,6 +10,9 @@ import {
   resetToDefaultConfig,
   uploadConfig,
   useQRScoutState,
+  saveData,
+  clearSaveData,
+  useSaveState
 } from './store/store';
 
 export function App() {
@@ -18,6 +21,10 @@ export function App() {
   const formData = useQRScoutState(state => state.formData);
 
   const [showQR, setShowQR] = useState(false);
+  const [whichCode, setCode] = useState(-1);
+  const isSaveData = useSaveState(state => state.isSaveData);
+  const savedData = useSaveState(state => state.saveData);
+  const [isMoreData, setMore] = useState(false)
 
   const missingRequiredFields = useMemo(() => {
     return formData.sections
@@ -62,6 +69,40 @@ export function App() {
     download('QRScout_config.json', JSON.stringify(configDownload));
   }
 
+  function getCurrentQRCodeData(): string {
+    if (whichCode === -1) {
+      setMore(false)
+      return getQRCodeData();
+    }
+    setMore(true)
+    return savedData[whichCode];
+  }
+  
+  function dismissQR(fastExit: boolean) {
+    if (fastExit) {
+      setShowQR(false)
+      setCode(-1)
+      return
+    }
+    if (whichCode >= savedData.length - 1 || whichCode === -1) {
+      setCode(-1)
+      setMore(false)
+      setShowQR(false)
+    }
+    else if (whichCode >= savedData.length - 2){
+      setShowQR(false)
+      setMore(false)
+      setCode(-1);
+      setShowQR(true);
+    }
+    else {
+      setShowQR(false)
+      setMore(true)
+      setCode(whichCode + 1);
+      setShowQR(true)
+    }
+  }
+
   return (
     <div className="min-h-screen py-2 dark:bg-gray-700">
       <head>
@@ -76,8 +117,9 @@ export function App() {
         <QRModal
           show={showQR}
           title={`${getFieldValue('robot')} - ${getFieldValue('matchNumber')}`}
-          data={getQRCodeData()}
-          onDismiss={() => setShowQR(false)}
+          data={getCurrentQRCodeData()}
+          onDismiss={dismissQR}
+          isMore={isMoreData}
         />
 
         <form className="w-full px-4">
@@ -86,21 +128,45 @@ export function App() {
               return <Section key={section.name} name={section.name} />;
             })}
 
-            <div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md dark:bg-gray-600">
+<div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md dark:bg-gray-600">
               <button
-                className="focus:shadow-outline mx-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-red-rhr"
+                className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-red-rhr"
                 type="button"
-                onClick={() => setShowQR(true)}
+                onClick={() => {setCode(-1); setShowQR(true)}}
                 disabled={missingRequiredFields.length > 0}
               >
-                Commit
+                Show Current QRCode
+              </button>
+              <button
+                className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-3 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-red-rhr"
+                type="button"
+                onClick={() => {saveData(getQRCodeData())}}
+                disabled={missingRequiredFields.length > 0}
+              >
+                Save QR to Local Storage
+              </button>
+              <button
+                className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-3 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-red-rhr"
+                type="button"
+                onClick={() => {setCode(0); setShowQR(true)}}
+                disabled={!isSaveData}
+              >
+                Load QR from Local Storage
+              </button>
+              <button
+                className="focus:shadow-outline mx-2 my-6 rounded border border-red-rhr bg-red-400 py-2 font-bold uppercase text-red-rhr hover:bg-red-200 focus:outline-none dark:bg-red-500 dark:text-white dark:hover:bg-gray-700 disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:border-gray-300"
+                type="button"
+                onClick={() => {if (confirm("Are you sure you want to clear the data?")){clearSaveData()}}}
+                disabled={!isSaveData}
+              >
+                Clear Saved Data
               </button>
               <button
                 className="focus:shadow-outline mx-2 my-6 rounded border border-red-rhr bg-white py-2 font-bold uppercase text-red-rhr hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
                 type="button"
                 onClick={() => resetSections()}
               >
-                Reset
+                Reset Form
               </button>
             </div>
             <div className="mb-4 flex flex-col justify-center rounded bg-white shadow-md dark:bg-gray-600 gap-2 p-2">

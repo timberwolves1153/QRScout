@@ -99,3 +99,40 @@ export function getQRCodeData(): string {
     .map(v => `${v.value}`.replace(/\n/g, ' '))
     .join('\t');
 }
+
+export interface SaveState {
+  saveData: Array<string>;
+  isSaveData: boolean;
+}
+
+const initialSaveState: SaveState = {
+  saveData: [],
+  isSaveData: false
+};
+
+export const useSaveState = createStore<SaveState>(
+  initialSaveState,
+  'saveData',
+  {
+    version: 1,
+  },
+);
+
+export function saveData(newData: string) {
+  var data = useSaveState.getState().saveData;
+  if (data[data.length - 1] == newData){
+    if (!confirm("Last two saved items are the same. Save anyway?")){
+      return
+    }
+  }
+  data.push(newData);
+  useSaveState.setState({ saveData: data, isSaveData: true });
+}
+
+export function getSaveData() {
+  return useSaveState.getState().saveData;
+}
+
+export function clearSaveData(){
+  useSaveState.setState({ saveData: [], isSaveData: false });
+}
