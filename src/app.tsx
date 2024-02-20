@@ -23,10 +23,13 @@ export function App() {
   const formData = useQRScoutState(state => state.formData);
 
   const [showQR, setShowQR] = useState(false);
+
   const [team, setTeam] = useState("1153");
   const [whichCode, setCode] = useState(-1);
   const isSaveData = useSaveState(state => state.isSaveData);
   const savedData = useSaveState(state => state.saveData);
+  const [isMoreData, setMore] = useState(false)
+
 
   const missingRequiredFields = useMemo(() => {
     return formData.sections
@@ -90,18 +93,33 @@ export function App() {
 
   function getCurrentQRCodeData(): string {
     if (whichCode === -1) {
+      setMore(false)
       return getQRCodeData();
     }
+    setMore(true)
     return savedData[whichCode];
   }
   
-  function dismissQR() {
+  function dismissQR(fastExit: boolean) {
+    if (fastExit) {
+      setShowQR(false)
+      setCode(-1)
+      return
+    }
     if (whichCode >= savedData.length - 1 || whichCode === -1) {
       setCode(-1)
+      setMore(false)
       setShowQR(false)
+    }
+    else if (whichCode >= savedData.length - 2){
+      setShowQR(false)
+      setMore(false)
+      setCode(-1);
+      setShowQR(true);
     }
     else {
       setShowQR(false)
+      setMore(true)
       setCode(whichCode + 1);
       setShowQR(true)
     }
@@ -124,6 +142,7 @@ export function App() {
           title={`${getFieldValue('robot')} - ${getFieldValue('matchNumber')}`}
           data={getCurrentQRCodeData()}
           onDismiss={dismissQR}
+          isMore={isMoreData}
         />
 
         <form className="w-full px-4">
@@ -132,7 +151,7 @@ export function App() {
               return <Section key={section.name} name={section.name} />;
             })}
 
-            <div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md dark:bg-gray-600">
+<div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md dark:bg-gray-600">
               <button
                 className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-primary"
                 type="button"

@@ -100,7 +100,6 @@ export function getQRCodeData(): string {
     .join('\t');
 }
 
-
 export interface SaveState {
   saveData: Array<string>;
   isSaveData: boolean;
