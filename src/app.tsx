@@ -25,10 +25,10 @@ export function App() {
   const [showQR, setShowQR] = useState(false);
 
   const [team, setTeam] = useState("1153");
-  const [whichCode, setCode] = useState(-1);
+
+  const [whichCode, setCode] = useState("form");
   const isSaveData = useSaveState(state => state.isSaveData);
   const savedData = useSaveState(state => state.saveData);
-  const [isMoreData, setMore] = useState(false)
 
 
   const missingRequiredFields = useMemo(() => {
@@ -91,38 +91,11 @@ export function App() {
 
   updateColors();
 
-  function getCurrentQRCodeData(): string {
-    if (whichCode === -1) {
-      setMore(false)
-      return getQRCodeData();
+  function getCurrentQRCodeData(): Array<string> {
+    if (whichCode == "form") {
+      return [getQRCodeData()];
     }
-    setMore(true)
-    return savedData[whichCode];
-  }
-  
-  function dismissQR(fastExit: boolean) {
-    if (fastExit) {
-      setShowQR(false)
-      setCode(-1)
-      return
-    }
-    if (whichCode >= savedData.length - 1 || whichCode === -1) {
-      setCode(-1)
-      setMore(false)
-      setShowQR(false)
-    }
-    else if (whichCode >= savedData.length - 2){
-      setShowQR(false)
-      setMore(false)
-      setCode(-1);
-      setShowQR(true);
-    }
-    else {
-      setShowQR(false)
-      setMore(true)
-      setCode(whichCode + 1);
-      setShowQR(true)
-    }
+    return savedData;
   }
 
   return (
@@ -141,8 +114,7 @@ export function App() {
           show={showQR}
           title={`${getFieldValue('robot')} - ${getFieldValue('matchNumber')}`}
           data={getCurrentQRCodeData()}
-          onDismiss={dismissQR}
-          isMore={isMoreData}
+          onDismiss={() => setShowQR(false)}
         />
 
         <form className="w-full px-4">
@@ -155,7 +127,7 @@ export function App() {
               <button
                 className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-primary"
                 type="button"
-                onClick={() => {setCode(-1); setShowQR(true)}}
+                onClick={() => {setCode("form"); setShowQR(true)}}
                 disabled={missingRequiredFields.length > 0}
               >
                 Show Current QRCode
@@ -171,7 +143,7 @@ export function App() {
               <button
                 className="focus:shadow-outline mx-2 my-2 rounded bg-gray-700 py-3 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-primary"
                 type="button"
-                onClick={() => {setCode(0); setShowQR(true)}}
+                onClick={() => {setCode("storage"); setShowQR(true)}}
                 disabled={!isSaveData}
               >
                 Load QR from Local Storage
