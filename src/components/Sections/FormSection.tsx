@@ -16,7 +16,7 @@ export default function FormSection(props: SectionProps) {
       key={props.name}
     >
       <div className="mb-2 rounded-t bg-primary p-1 shadow-md">
-        <h2 className="font-rhr-ns text-2xl uppercase text-secondary">
+        <h2 className="font-rhr-ns text-2xl uppercase text-white dark:text-black">
           {props.name}
         </h2>
       </div>
