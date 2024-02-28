@@ -1,7 +1,7 @@
 import { produce } from 'immer';
 import { ChangeEvent } from 'react';
 import configJson from '../../config/2024/config.json';
-import { Config } from '../inputs/BaseInputProps';
+import { Config } from '../components/inputs/BaseInputProps';
 import { createStore } from './createStore';
 
 function buildConfig(c: Config) {
@@ -61,7 +61,9 @@ export function resetSections() {
         .map(s => s.fields)
         .flat()
         .forEach(f => {
-          f.value = f.defaultValue;
+          if (!f.preserveDataOnReset) {
+            f.value = f.defaultValue;
+          }
         }),
     ),
   );
@@ -91,13 +93,12 @@ export const inputSelector =
       ?.fields.find(f => f.code === code);
   };
 
-export function getQRCodeData(): string {
+export function getFieldValue(code: string) {
   return useQRScoutState
     .getState()
     .formData.sections.map(s => s.fields)
     .flat()
-    .map(v => `${v.value}`.replace(/\n/g, ' '))
-    .join('\t');
+    .find(f => f.code === code)?.value;
 }
 
 export interface SaveState {

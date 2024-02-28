@@ -1,4 +1,4 @@
-import { inputSelector, updateValue, useQRScoutState } from '../store/store';
+import { inputSelector, updateValue, useQRScoutState } from '../../store/store';
 import Checkbox from './CheckboxInput';
 import CounterInput from './CounterInput';
 import NumberInput from './NumberInput';
@@ -51,6 +51,7 @@ export default function ConfigurableInput(props: ConfigurableInputProps) {
           key={input.title}
           {...input}
           onChange={handleChange}
+          defaultValue={input.defaultValue}
           section={props.section}
         />
       );
