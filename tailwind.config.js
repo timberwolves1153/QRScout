@@ -11,6 +11,10 @@ module.exports = {
       },
       colors: {
         red: { rhr: '#ef3340' },
+        primary: 'rgb(var(--color-primary) / <alpha-value>)',
+        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+        background: 'rgb(var(--color-background) / <alpha-value>)',
+        foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
       },
     },
   },
