@@ -25,7 +25,6 @@ export function getQRCodeData(formData: Config): string {
 export function QRModal(props: QRModalProps) {
   const modalRef = useRef(null);
   const formData = useQRScoutState(state => state.formData);
-  useOnClickOutside(modalRef, props.onDismiss);
 
   const title = `${getFieldValue('robot')} - M${getFieldValue(
     'matchNumber',
@@ -60,6 +59,8 @@ export function QRModal(props: QRModalProps) {
     setCodeIndex(0);
     props.onDismiss();
   }
+  
+  useOnClickOutside(modalRef, dismiss);
   
   return (
     <>
