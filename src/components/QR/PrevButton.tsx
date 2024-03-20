@@ -1,12 +1,12 @@
-export type NextButtonProps = {
+export type PrevButtonProps = {
   onClick: () => void;
   disabled?: boolean;
 };
 
-export function NextButton(props: NextButtonProps) {
+export function PrevButton(props: PrevButtonProps) {
   return (
     <button
-      className="focus:shadow-outline rounded-full text-gray-500 absolute top-0 left-10 m-2 p-2 hover:text-gray-800 "
+      className="focus:shadow-outline rounded-full text-gray-500 absolute top-0 left-0 m-2 p-2 hover:text-gray-800 "
       type="button"
       onClick={props.onClick}
       disabled={props.disabled}
@@ -22,7 +22,7 @@ export function NextButton(props: NextButtonProps) {
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          d="M6 18 12 12M6 6l6 6"
+          d="M12 12 18 6M12 12l6 6"
         />
       </svg>
     </button>

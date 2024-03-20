@@ -48,7 +48,7 @@ export function ConfigSection() {
       <Button
         variant={Variant.Secondary}
         onClick={() =>
-          navigator.clipboard.writeText(
+          alert(
             formData.sections
               .map(s => s.fields)
               .flat()
