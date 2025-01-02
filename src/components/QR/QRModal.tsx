@@ -1,7 +1,7 @@
 import { Copy, QrCode } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { useMemo } from 'react';
-import { getFieldValue, useQRScoutState } from '../../store/store';
+import { useState } from 'react';
+import { getFieldValue, useQRScoutState, clearSaveData,  } from '../../store/store';
 import { Button } from '../ui/button';
 import {
   Dialog,
@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import { PreviewText } from './PreviewText';
+import { useSaveState, saveData } from '../../store/store';
 
 export interface QRModalProps {
   disabled?: boolean;
@@ -18,29 +19,47 @@ export interface QRModalProps {
 
 export function QRModal(props: QRModalProps) {
   const fieldValues = useQRScoutState(state => state.fieldValues);
-  const formData = useQRScoutState(state => state.formData);
+
   const title = `${getFieldValue('robot')} - M${getFieldValue(
     'matchNumber',
   )}`.toUpperCase();
 
-  const qrCodePreview = useMemo(
-    () => fieldValues.map(f => f.value).join(','),
-    [fieldValues],
-  );
-  const qrCodeData = useMemo(
-    () => fieldValues.map(f => f.value).join(formData.delimiter),
-    [fieldValues],
-  );
-  //Two seperate values are required- qrCodePreview is what is shown to the user beneath the QR code, qrCodeData is the actual data.
+const [stored, isStored] = useSaveState(state => [state.saveData, state.isSaveData]);
+  const [index, setCodeIndex] = useState(0);
+
+  const currentFormData = fieldValues.map(f => f.value).join(',')
+  if (index >= stored.length && index > 0){
+    setCodeIndex(0)
+  }
+ const qrCodeData = stored[index] 
 
   return (
     <Dialog>
+      <Button
+        disabled={props.disabled}
+        onClick={() => saveData(currentFormData)}>
+          Save
+      </Button>
       <DialogTrigger asChild>
-        <Button disabled={props.disabled}>
+        <Button 
+          //disabled={props.disabled}
+          onClick={() => {console.log("dd");/*saveData(currentFormData);*/ setCodeIndex(0)}}
+        >
           <QrCode className="size-5" />
-          Commit
+          Show QR
         </Button>
       </DialogTrigger>
+      
+      <Button
+        disabled={!isStored}
+          onClick={() => {
+            if (!confirm("Clear saved QR codes?")){
+              return
+            }
+            setCodeIndex(0); clearSaveData()}}
+        >
+          Clear data
+        </Button>
       <DialogContent>
         <DialogTitle className="text-3xl text-primary text-center font-rhr-ns tracking-wider ">
           {title}
@@ -49,9 +68,22 @@ export function QRModal(props: QRModalProps) {
           <div className="bg-white p-4 rounded-md">
             <QRCodeSVG className="m-2 mt-4" size={256} value={qrCodeData} />
           </div>
-          <PreviewText data={qrCodePreview} />
+          <PreviewText data={qrCodeData} />
         </div>
         <DialogFooter>
+        
+        <Button
+            variant="ghost"
+            onClick={() => setCodeIndex(index - 1)}
+            disabled={index <= 0}
+            >PREV CODE
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => setCodeIndex(index + 1)}
+            disabled={index >= stored.length - 1}
+            >NEXT CODE
+            </Button>
           <Button
             variant="ghost"
             onClick={() => navigator.clipboard.writeText(qrCodeData)}
