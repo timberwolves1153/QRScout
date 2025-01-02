@@ -1,6 +1,6 @@
 import { Copy, QrCode } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { getFieldValue, useQRScoutState, clearSaveData,  } from '../../store/store';
 import { Button } from '../ui/button';
 import {
@@ -9,7 +9,6 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-  DialogClose
 } from '../ui/dialog';
 import { PreviewText } from './PreviewText';
 import { useSaveState, saveData } from '../../store/store';
