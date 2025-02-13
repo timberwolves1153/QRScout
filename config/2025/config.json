@@ -224,25 +224,6 @@
             "step": 1
           },
           {
-            "title": "Auto Game Piece Path",
-            "type": "select",
-            "required": false,
-            "code": "a_gp_Path",
-            "formResetBehavior": "reset",
-            "defaultValue": "",
-            "choices": {
-              "1": "Speaker 3 (Source Side)",
-              "2": "Speaker 2 (Middle)",
-              "3": "Speaker 1 (Amp Side)",
-              "4": "Midline 5 (Source Edge)",
-              "5": "Midline 4",
-              "6": "Midline 3 (Middle)",
-              "7": "Midline 2",
-              "8": "Midline 1 (Amp Edge)"
-            },
-            "multiSelect": true
-          },
-          {
             "title": "Removed Algae in Auto?",
             "description": "Did the robot hit algae off of the coral reef in auto?",
             "type": "boolean",
