@@ -26,7 +26,7 @@ export function QRModal(props: QRModalProps) {
   const [stored, isStored] = useSaveState(state => [state.saveData, state.isSaveData]);
   const [index, setCodeIndex] = useState(0);
 
-  const currentFormData = useMemo(() => fieldValues.map(f => f.value).join(','), [fieldValues])
+  const currentFormData = useMemo(() => fieldValues.map(f => f.value).join('\t'), [fieldValues])
   if (index >= stored.length && index > 0){
     setCodeIndex(0)
   }
