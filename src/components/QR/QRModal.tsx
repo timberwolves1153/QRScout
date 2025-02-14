@@ -1,7 +1,7 @@
 import { Copy, QrCode } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { useState } from 'react';
-import { getFieldValue, useQRScoutState, clearSaveData,  } from '../../store/store';
+import { useState, useMemo } from 'react';
+import { getFieldValue, useQRScoutState, clearSaveData, useSaveState, saveData  } from '../../store/store';
 import { Button } from '../ui/button';
 import {
   Dialog,
@@ -11,7 +11,6 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import { PreviewText } from './PreviewText';
-import { useSaveState, saveData } from '../../store/store';
 
 export interface QRModalProps {
   disabled?: boolean;
@@ -24,14 +23,14 @@ export function QRModal(props: QRModalProps) {
     'matchNumber',
   )}`.toUpperCase();
 
-const [stored, isStored] = useSaveState(state => [state.saveData, state.isSaveData]);
+  const [stored, isStored] = useSaveState(state => [state.saveData, state.isSaveData]);
   const [index, setCodeIndex] = useState(0);
 
-  const currentFormData = fieldValues.map(f => f.value).join(',')
+  const currentFormData = useMemo(() => fieldValues.map(f => f.value).join(','), [fieldValues])
   if (index >= stored.length && index > 0){
     setCodeIndex(0)
   }
- const qrCodeData = stored[index] 
+ const qrCodeData = stored[index]
 
   return (
     <Dialog>
@@ -42,8 +41,8 @@ const [stored, isStored] = useSaveState(state => [state.saveData, state.isSaveDa
       </Button>
       <DialogTrigger asChild>
         <Button 
-          //disabled={props.disabled}
-          onClick={() => {console.log("dd");/*saveData(currentFormData);*/ setCodeIndex(0)}}
+          disabled={stored.length == 0}
+          onClick={() => {setCodeIndex(0)}}
         >
           <QrCode className="size-5" />
           Show QR
