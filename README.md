@@ -107,3 +107,10 @@ The basic structure of the config.json file is as follows:
 ```
 
 `defaultValue`: The default value of this field.
+
+## build
+```shell
+npm install
+npm run build
+# output is in ./dist
+```
