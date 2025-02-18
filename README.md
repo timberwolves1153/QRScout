@@ -110,7 +110,11 @@ The basic structure of the config.json file is as follows:
 
 ## build
 ```shell
+# clone the repo
+git clone https://github.com/timberwolves1153/QRScout.git
+# setup environment
 npm install
+# build
 npm run build
 # output is in ./dist
 ```
