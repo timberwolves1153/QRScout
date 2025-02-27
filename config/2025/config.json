@@ -108,6 +108,19 @@
             "max": 19999
           },
           {
+            "title": "Preload",
+            "description": "What is the robot carrying at the start of the match?",
+            "type": "select",
+            "required": true,
+            "code": "Preload",
+            "formResetBehavior": "reset",
+            "defaultValue": "",
+            "choices": {
+              "C": "Coral",
+              "N": "None"
+            }
+          },
+          {
             "title": "Starting Position",
             "description": "Left: Near the post on the edge of the field, Middle: Between the metal posts, Right: Near the center post in the middle of the field",
             "type": "select",
@@ -129,19 +142,6 @@
             "code": "noShow",
             "formResetBehavior": "reset",
             "defaultValue": false
-          },
-          {
-            "title": "Preload",
-            "description": "What is the robot carrying at the start of the match?",
-            "type": "select",
-            "required": true,
-            "code": "Preload",
-            "formResetBehavior": "reset",
-            "defaultValue": "",
-            "choices": {
-              "C": "Coral",
-              "N": "None"
-            }
           }
         ]
       },
@@ -231,25 +231,6 @@
             "code": "dto",
             "formResetBehavior": "reset",
             "defaultValue": false
-          },
-          {
-            "title": "Touched Opposing Cage in auto?",
-            "type": "counter",
-            "required": false,
-            "code": "Fou/Tech",
-            "formResetBehavior": "reset",
-            "defaultValue": 0,
-            "step": 1
-          },
-          {
-            "title": "Auto Foul",
-            "type": "counter",
-            "required": false,
-            "code": "auf",
-            "formResetBehavior": "reset",
-            "defaultValue": 0,
-            "min": 0,
-            "step": 1
           }
         ]
       },
@@ -316,6 +297,17 @@
             "step": 1
           },
           {
+            "title": "Number of Coral Missed",
+            "type": "counter",
+            "description": "The number of coral that the robot missed on the reef",
+            "required": false,
+            "code": "NumofCorMi",
+            "formResetBehavior": "reset",
+            "defaultValue": 0,
+            "min": 0,
+            "step": 1
+          },
+          {
             "title": "Barge Algae Scored Teleop",
             "description": "The number of Algae scored in the barge during Teleop.",
             "type": "counter",
@@ -356,37 +348,10 @@
             "defaultValue": false
           },
           {
-            "title": "Touched Opposing Cage in teleop?",
-            "type": "counter",
-            "required": false,
-            "code": "Fol/Tech",
-            "formResetBehavior": "reset",
-            "defaultValue": 0,
-            "step": 1
-          },
-          {
-            "title": "Teleop Foul",
-            "type": "counter",
-            "required": false,
-            "code": "tef",
-            "formResetBehavior": "reset",
-            "defaultValue": 0,
-            "min": 0,
-            "step": 1
-          },
-          {
             "title": "Tipped/Fell Over?",
             "type": "boolean",
             "required": false,
             "code": "TFOT",
-            "formResetBehavior": "reset",
-            "defaultValue": false
-          },
-          {
-            "title": "Died?",
-            "type": "boolean",
-            "required": false,
-            "code": "DEg",
             "formResetBehavior": "reset",
             "defaultValue": false
           }
