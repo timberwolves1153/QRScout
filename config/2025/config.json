@@ -108,17 +108,14 @@
             "max": 19999
           },
           {
-            "title": "Preload",
+            "title": "Preload?",
             "description": "What is the robot carrying at the start of the match?",
-            "type": "select",
+            "type": "boolean",
             "required": true,
             "code": "Preload",
             "formResetBehavior": "reset",
-            "defaultValue": "",
-            "choices": {
-              "C": "Coral",
-              "N": "None"
-            }
+            "defaultValue": false
+            
           },
           {
             "title": "Starting Position",
@@ -348,7 +345,7 @@
             "defaultValue": false
           },
           {
-            "title": "Tipped/Fell Over?",
+            "title": "Died/Tipped Over?",
             "type": "boolean",
             "required": false,
             "code": "TFOT",
