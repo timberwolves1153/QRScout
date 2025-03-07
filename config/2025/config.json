@@ -327,13 +327,19 @@
             "step": 1
           },
           {
-            "title": "Crossed Field/Played Defense?",
-            "type": "boolean",
-            "description": "Did the robot go to the opposing side and collect game pieces to prevent the opponent from scoring?",
+            "title": "Game piece stuck in Robot?",
+            "type": "select",
+            "description": "Does the robot have a game piece stuck in their intake or are they stuck on top of an algae?",
             "required": false,
-            "code": "CFPDT",
+            "code": "STUC",
             "formResetBehavior": "reset",
-            "defaultValue": false
+            "defaultValue": "NS",
+            "choices": {
+              "NS": "Not Stuck",
+              "SA": "Stuck on Algae",
+              "SC": "Stuck with Coral",
+              "BS": "Both Stuck"
+            }
           },
           {
             "title": "Removed Algae in Teleop?",
