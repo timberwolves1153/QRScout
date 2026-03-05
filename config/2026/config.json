@@ -6,7 +6,7 @@
   "floatingField": {
     "show": false,
     "codeValue": "teamNumber"
-  },
+},
   "theme": {
     "light": {
       "background": "0 0% 100%",
@@ -126,7 +126,7 @@
             "H": "Hub",
             "DBFT": "Depot Bump",
             "DT": "Depot Trench"
-          }
+        }
         },
         {
           "title": "No Show",
