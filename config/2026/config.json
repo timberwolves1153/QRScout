@@ -15,19 +15,19 @@
       "card_foreground": "0 0% 3.9%",
       "popover": "0 0% 100%",
       "popover_foreground": "0 0% 3.9%",
-      "primary": "354.44 71.3% 47.9%",
-      "primary_foreground": "0 85.7% 97.3%",
+      "primary": "227 53% 25%",
+      "primary_foreground": "227 53% 98%",
       "secondary": "0 0% 96.1%",
       "secondary_foreground": "0 0% 9%",
       "muted": "0 0% 96.1%",
       "muted_foreground": "0 0% 45.1%",
       "accent": "0 0% 96.1%",
       "accent_foreground": "0 0% 9%",
-      "destructive": "0 84.2% 60.2%",
-      "destructive_foreground": "0 0% 98%",
+      "destructive": "25 100% 50%",
+      "destructive_foreground": "25 100% 98%",
       "border": "0 0% 89.8%",
       "input": "0 0% 89.8%",
-      "ring": "354.44 71.3% 47.9%",
+      "ring": "227 53% 25%",
       "chart_1": "12 76% 61%",
       "chart_2": "173 58% 39%",
       "chart_3": "197 37% 24%",
@@ -41,19 +41,19 @@
       "card_foreground": "0 0% 98%",
       "popover": "0 0% 3.9%",
       "popover_foreground": "0 0% 98%",
-      "primary": "354.44 71.3% 47.9%",
-      "primary_foreground": "0 85.7% 97.3%",
+      "primary": "227 53% 25%",
+      "primary_foreground": "227 53% 98%",
       "secondary": "0 0% 14.9%",
       "secondary_foreground": "0 0% 98%",
       "muted": "0 0% 14.9%",
       "muted_foreground": "0 0% 63.9%",
       "accent": "0 0% 14.9%",
       "accent_foreground": "0 0% 98%",
-      "destructive": "0 62.8% 30.6%",
-      "destructive_foreground": "0 0% 98%",
+      "destructive": "25 100% 50%",
+      "destructive_foreground": "25 100% 98%",
       "border": "0 0% 14.9%",
       "input": "0 0% 14.9%",
-      "ring": "354.44 71.3% 47.9%",
+      "ring": "227 53% 25%",
       "chart_1": "220 70% 50%",
       "chart_2": "160 60% 45%",
       "chart_3": "30 80% 55%",
@@ -84,13 +84,33 @@
           "defaultValue": 1
         },
         {
-          "title": "Team and Robot",
-          "description": "Select the team and robot position you are scouting.",
-          "type": "TBA-team-and-robot",
+          "title": "Team Number",
+          "description": "The team number of the robot you're scouting.",
+          "type": "number",
+          "required": true,
+          "code": "teamNumber",
+          "formResetBehavior": "reset",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 19999
+        },
+        {
+          "title": "Robot",
+          "description": "The robot you are scouting this match, based on driver station position.",
+          "type": "select",
           "required": true,
           "code": "robot",
           "formResetBehavior": "preserve",
-          "defaultValue": null
+          "defaultValue": "R1",
+          "choices": {
+            "R1": "🟥 Red 1",
+            "R2": "🟥 Red 2",
+            "R3": "🟥 Red 3",
+            "SPC": "------",
+            "B1": "🟦 Blue 1",
+            "B2": "🟦 Blue 2",
+            "B3": "🟦 Blue 3"
+          }
         },
         {
           "title": "Starting Position",
@@ -102,11 +122,9 @@
           "defaultValue": "",
           "choices": {
             "OT": "Outpost Trench",
-            "OBFT": "Outpost Bump Favoring Trench",
-            "OBFH": "Outpost Bump Favoring Hub",
+            "OBFT": "Outpost Bump",
             "H": "Hub",
-            "DBFH": "Depot Bump Favoring Hub",
-            "DBFT": "Depot Bump Favoring Trench",
+            "DBFT": "Depot Bump",
             "DT": "Depot Trench"
           }
         },
@@ -203,21 +221,20 @@
           }
         },
         {
-          "title": "Fuel Scored in Auto?",
-          "description": "The number of fuel scored in autonomous.",
-          "type": "counter",
+          "title": "Scoring Acc. in Auto?",
+          "description": "The percentage accuracy for the number of fuel scored in autonomous.",
+          "type": "select",
           "required": false,
           "code": "autoFuelScored",
           "formResetBehavior": "reset",
-          "defaultValue": 0,
-          "min": 0,
-          "step": 1
-        }
-      ]
-    },
-    {
-      "name": "Teleop",
-      "fields": [
+          "defaultValue": "0",
+          "choices": {
+            "0": "🟥 0%-25%",
+            "25": "🟧 25%-50%",
+            "50": "🟨 50%-75%",
+            "75": "🟩 75%-100%"
+          }
+        },
         {
           "title": "Alliance won auto?",
           "description": "Did your alliance win the autonomous period?",
@@ -226,62 +243,14 @@
           "code": "allianceWonAuto",
           "formResetBehavior": "reset",
           "defaultValue": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Active",
+      "fields": [
         {
-          "title": "Actions",
-          "description": "Track actions performed during teleop.",
-          "type": "action-tracker",
-          "required": false,
-          "code": "teleopActions",
-          "formResetBehavior": "reset",
-          "defaultValue": null,
-          "mode": "hold",
-          "actions": [
-            {
-              "label": "Scoring",
-              "code": "scoring"
-            },
-            {
-              "label": "Depot Collect",
-              "code": "depot_collect"
-            },
-            {
-              "label": "Outpost Collect",
-              "code": "outpost_collect"
-            },
-            {
-              "label": "Ground Collect",
-              "code": "ground_collect"
-            },
-            {
-              "label": "Bump",
-              "code": "bump"
-            },
-            {
-              "label": "Trench",
-              "code": "trench"
-            },
-            {
-              "label": "Passing",
-              "code": "passing"
-            },
-            {
-              "label": "Climbing",
-              "code": "climbing"
-            },
-            {
-              "label": "Defense",
-              "code": "defense"
-            },
-            {
-              "label": "Faffing/Stuck on Fuel",
-              "code": "faffing"
-            }
-          ],
-          "timerDuration": 135
-        },
-        {
-          "title": "Crossed into opposite zone?",
+          "title": "Crossed into opposite zone during Active Shift?",
           "description": "Did the robot cross into the opposing alliance's zone?",
           "type": "boolean",
           "required": false,
@@ -290,7 +259,7 @@
           "defaultValue": false
         },
         {
-          "title": "Defended during match?",
+          "title": "Defended during Active Shift?",
           "description": "Did the robot play defense during the match?",
           "type": "boolean",
           "required": false,
@@ -299,31 +268,93 @@
           "defaultValue": false
         },
         {
-          "title": "Mechanical Issue?",
-          "description": "Did the robot have a mechanical issue during the match?",
+          "title": "Gold Spot during the Active Shift?",
+          "description": "Where did the robot score/corral all of the balls to during the match?",
+          "type": "select",
+          "required": true,
+          "code": "climbed",
+          "formResetBehavior": "reset",
+          "defaultValue": "No",
+          "choices": {
+            "Hub": "Hub",
+            "Depot": "Depot",
+            "Outpost": "Outpost",
+            "Tren": "Trench",
+            "Other": "Other spots (middle area of field)"
+          }
+          },
+          {
+              "title": "Role of Robot during the Active shift?",
+              "description": "What did the robot mainly do during this Active period?",
+              "type": "select",
+              "required": true,
+              "code": "climbed",
+              "formResetBehavior": "reset",
+              "defaultValue": "None",
+              "choices": {
+              "No Role": "None",
+              "Score": "Scorer",
+              "Shoot": "Shooter",
+              "Shuttle": "Shuttler",
+              "Pass": "Passer",
+              "Defend": "Defender"
+              }
+          }      
+      ]
+    },
+    {
+      "name": "Inactive",
+      "fields": [
+        {
+          "title": "Crossed into opposite zone during Inactive Shift?",
+          "description": "Did the robot cross into the opposing alliance's zone?",
           "type": "boolean",
           "required": false,
-          "code": "mechIssue",
+          "code": "crossedZone",
           "formResetBehavior": "reset",
           "defaultValue": false
         },
         {
-          "title": "Died?",
-          "description": "Did the robot die during the match?",
-          "type": "boolean",
-          "required": false,
-          "code": "died",
+          "title": "Role of Robot during Inactive Shift?",
+          "description": "What did the robot mainly do during this Active period?",
+          "type": "select",
+          "required": true,
+          "code": "climbed",
           "formResetBehavior": "reset",
-          "defaultValue": false
-        },
-        {
-          "title": "Tipped/Fell Over",
-          "description": "Did the robot tip or fall over during the match?",
-          "type": "boolean",
-          "required": false,
-          "code": "tipped",
-          "formResetBehavior": "reset",
-          "defaultValue": false
+          "defaultValue": "None",
+          "choices": {
+            "No Role": "None",
+            "Score": "Scorer",
+            "Shoot": "Shooter",
+            "Shuttle": "Shuttler",
+            "Pass": "Passer",
+            "Defend": "Defender"
+          }
+      }, 
+      {
+        "title": "Defended during Inactive Shift?",
+        "description": "Did the robot play defense during the match?",
+        "type": "boolean",
+        "required": false,
+        "code": "robotDefended",
+        "formResetBehavior": "reset",
+        "defaultValue": false
+      },
+      {
+        "title": "Gold Spot during Inactive Shift?",
+        "description": "Where did the robot score/corral all of the balls to during the match?",
+        "type": "select",
+        "required": true,
+        "code": "climbed",
+        "formResetBehavior": "reset",
+        "defaultValue": "No",
+        "choices": {
+          "Hub": "Hub",
+          "Depot": "Depot",
+          "Outpost": "Outpost",
+          "Tren": "Trench",
+          "Other": "Other spots (middle area of field)"
+        }
         }
       ]
     },
@@ -367,6 +398,33 @@
       "name": "Postmatch",
       "fields": [
         {
+          "title": "Mechanical Issue?",
+          "description": "Did the robot have a mechanical issue during the match?",
+          "type": "boolean",
+          "required": false,
+          "code": "mechIssue",
+          "formResetBehavior": "reset",
+          "defaultValue": false
+        },
+        {
+          "title": "Died?",
+          "description": "Did the robot die during the match?",
+          "type": "boolean",
+          "required": false,
+          "code": "died",
+          "formResetBehavior": "reset",
+          "defaultValue": false
+        },
+        {
+          "title": "Tipped/Fell Over",
+          "description": "Did the robot tip or fall over during the match?",
+          "type": "boolean",
+          "required": false,
+          "code": "tipped",
+          "formResetBehavior": "reset",
+          "defaultValue": false
+        },
+        {
           "title": "Scoring Effectiveness",
           "description": "Rate the robot's scoring effectiveness.",
           "type": "range",
@@ -379,19 +437,19 @@
           "step": 1
         },
         {
-          "title": "Scored How?",
-          "description": "How did the robot score?",
+          "title": "Robot Overall Performance?",
+          "description": "How did the robot perform as a whole during the match?",
           "type": "select",
           "required": false,
-          "code": "scoredHow",
+          "code": "OverallPerformance",
           "formResetBehavior": "reset",
-          "defaultValue": "blank",
+          "defaultValue": "",
           "choices": {
-            "blank": "(blank)",
-            "driving": "While driving",
-            "stationary": "While stationary",
-            "both": "Both",
-            "none": "No scoring"
+            "1": "While driving",
+            "2": "While stationary",
+            "3": "Both",
+            "4": "No scoring",
+            "5": "No scoring"
           }
         },
         {
@@ -413,9 +471,8 @@
           "required": false,
           "code": "passedHow",
           "formResetBehavior": "reset",
-          "defaultValue": "blank",
+          "defaultValue": "",
           "choices": {
-            "blank": "(blank)",
             "driving": "While driving",
             "stationary": "While stationary",
             "both": "Both",
@@ -429,9 +486,8 @@
           "required": false,
           "code": "passLoc",
           "formResetBehavior": "reset",
-          "defaultValue": "blank",
+          "defaultValue": "",
           "choices": {
-            "blank": "(blank)",
             "scattered": "Scattered",
             "intentional": "Intentional",
             "both": "Both",
