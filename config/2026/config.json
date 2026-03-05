@@ -282,24 +282,24 @@
             "Tren": "Trench",
             "Other": "Other spots (middle area of field)"
           }
-          },
-          {
-              "title": "Role of Robot during the Active shift?",
-              "description": "What did the robot mainly do during this Active period?",
-              "type": "select",
-              "required": true,
-              "code": "climbed",
-              "formResetBehavior": "reset",
-              "defaultValue": "None",
-              "choices": {
-              "No Role": "None",
-              "Score": "Scorer",
-              "Shoot": "Shooter",
-              "Shuttle": "Shuttler",
-              "Pass": "Passer",
-              "Defend": "Defender"
-              }
-          }      
+        },
+        {
+          "title": "Role of Robot during the Active shift?",
+          "description": "What did the robot mainly do during this Active period?",
+          "type": "select",
+          "required": true,
+          "code": "climbed",
+          "formResetBehavior": "reset",
+          "defaultValue": "None",
+          "choices": {
+            "No Role": "None",
+            "Score": "Scorer",
+            "Shoot": "Shooter",
+            "Shuttle": "Shuttler",
+            "Pass": "Passer",
+            "Defend": "Defender"
+          }
+        }
       ]
     },
     {
@@ -330,31 +330,31 @@
             "Pass": "Passer",
             "Defend": "Defender"
           }
-      }, 
-      {
-        "title": "Defended during Inactive Shift?",
-        "description": "Did the robot play defense during the match?",
-        "type": "boolean",
-        "required": false,
-        "code": "robotDefended",
-        "formResetBehavior": "reset",
-        "defaultValue": false
-      },
-      {
-        "title": "Gold Spot during Inactive Shift?",
-        "description": "Where did the robot score/corral all of the balls to during the match?",
-        "type": "select",
-        "required": true,
-        "code": "climbed",
-        "formResetBehavior": "reset",
-        "defaultValue": "No",
-        "choices": {
-          "Hub": "Hub",
-          "Depot": "Depot",
-          "Outpost": "Outpost",
-          "Tren": "Trench",
-          "Other": "Other spots (middle area of field)"
-        }
+        },
+        {
+          "title": "Defended during Inactive Shift?",
+          "description": "Did the robot play defense during the match?",
+          "type": "boolean",
+          "required": false,
+          "code": "robotDefended",
+          "formResetBehavior": "reset",
+          "defaultValue": false
+        },
+        {
+          "title": "Gold Spot during Inactive Shift?",
+          "description": "Where did the robot score/corral all of the balls to during the match?",
+          "type": "select",
+          "required": true,
+          "code": "climbed",
+          "formResetBehavior": "reset",
+          "defaultValue": "No",
+          "choices": {
+            "Hub": "Hub",
+            "Depot": "Depot",
+            "Outpost": "Outpost",
+            "Tren": "Trench",
+            "Other": "Other spots (middle area of field)"
+          }
         }
       ]
     },
